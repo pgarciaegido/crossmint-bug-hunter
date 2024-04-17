@@ -1,5 +1,5 @@
 import { FirebaseAdapter } from "@/services/FirebaseAdapter";
-import { ReportBugReview } from "@/types";
+import { ReportBugBodyPayload } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -7,9 +7,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Invalid request" }, { status: 400 });
   }
 
-  const body = (await request.json()) as ReportBugReview;
+  const body = (await request.json()) as ReportBugBodyPayload;
 
-  await new FirebaseAdapter().saveToDB("bug_report", body);
+  await new FirebaseAdapter().saveToDB("review_report", body);
+
+  // TODO: Trigger the minting process if approved or notify if rejected
 
   return NextResponse.json({ message: "OK" }, { status: 200 });
 }

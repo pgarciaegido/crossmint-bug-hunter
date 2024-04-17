@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+import { DBNames } from "@/types";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -23,18 +24,18 @@ export class FirebaseAdapter {
     this.db = getFirestore(this.app);
   }
 
-  async saveToDB(data: any) {
+  async saveToDB(dbName: DBNames, data: any) {
     try {
-      const docRef = await addDoc(collection(this.db, "bug_report"), data);
+      const docRef = await addDoc(collection(this.db, dbName), data);
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }
 
-  async getFromDB() {
+  async getFromDB(dbName: DBNames) {
     try {
-      const querySnapshot = await getDocs(collection(this.db, "bug_report"));
+      const querySnapshot = await getDocs(collection(this.db, dbName));
       let documents: any = [];
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
