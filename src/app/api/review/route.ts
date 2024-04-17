@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
   const body = (await request.json()) as ReportBugReview;
 
   const firebaseAdapter = new FirebaseAdapter();
+  const crossmintAdapter = new CrossmintAdapter();
 
   await firebaseAdapter.saveToDB("review_report", body);
 
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest) {
       "status",
       "approved"
     );
-    await new CrossmintAdapter().mintNFT(
+    await crossmintAdapter.mintNFT(
       process.env.COLLECTION_ID!,
       `email:${report.userIdentifier}`
     );
@@ -35,6 +36,9 @@ export async function POST(request: NextRequest) {
       "rejected"
     );
     // TODO: Send email to user
+    const nfts = await crossmintAdapter.getNFTsFromCollection(
+      process.env.COLLECTION_ID!
+    );
   }
 
   return NextResponse.json({ message: "OK" }, { status: 200 });

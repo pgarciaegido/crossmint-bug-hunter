@@ -23,4 +23,19 @@ export class CrossmintAdapter {
       options
     );
   }
+
+  async getNFTsFromCollection(collectionId: string) {
+    const options: any = {
+      method: "GET",
+      headers: {
+        "x-api-key": secret,
+      },
+    };
+
+    const res = await fetch(
+      `${CROSSMINT_BASE_URL}/2022-06-09/collections/${collectionId}/nfts?page=1&perPage=20`,
+      options
+    );
+    return await res.json();
+  }
 }

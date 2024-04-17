@@ -46,7 +46,6 @@ export class FirebaseAdapter {
       const querySnapshot = await getDocs(collection(this.db, dbName));
       let documents: any = [];
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
         documents.push({ id: doc.id, ...doc.data() });
       });
       return documents;
