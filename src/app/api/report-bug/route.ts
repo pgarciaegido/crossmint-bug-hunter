@@ -1,13 +1,11 @@
+import { FirebaseAdapter } from "@/services/FirebaseAdapter";
 import { NextRequest, NextResponse } from "next/server";
 
 interface ReportBugBodyPayload {
   title: string;
   description: string;
   url: string;
-  userIdentifier: {
-    id: string;
-    type: "email";
-  };
+  userIdentifier: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -17,7 +15,7 @@ export async function POST(request: NextRequest) {
 
   const body = (await request.json()) as ReportBugBodyPayload;
 
-  // TODO: Save the report in a Database
+  await new FirebaseAdapter().saveToDB(body);
 
   return NextResponse.json({ message: "OK" }, { status: 200 });
 }
