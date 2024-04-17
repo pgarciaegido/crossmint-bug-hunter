@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { DBNames } from "@/types";
+import { DBNames, ReportStatus } from "@/types";
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
@@ -74,7 +74,12 @@ export class FirebaseAdapter {
     }
   }
 
-  async changeField(dbName: DBNames, id: string, field: string, value: any) {
+  async changeField(
+    dbName: DBNames,
+    id: string,
+    field: string,
+    value: ReportStatus
+  ) {
     try {
       const docRef = doc(this.db, dbName, id);
       const updateObject: any = {};

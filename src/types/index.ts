@@ -1,4 +1,4 @@
-type ReportStatus = "pending" | "approved" | "rejected";
+export type ReportStatus = "pending" | "approved" | "rejected";
 
 export interface ReportBugBodyPayload {
   title: string;

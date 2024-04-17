@@ -1,13 +1,11 @@
 const secret = process.env.CROSSMINT_SECRET;
-const CROSSMINT_BASE_URL = "https://www.crossmint.com/api";
+const CROSSMINT_BASE_URL = `https://${process.env.CROSSMINT_ENV}.crossmint.com/api`;
 
 export class CrossmintAdapter {
   async mintNFT(collectionId: string, recipient: string) {
     const options: any = {
       method: "POST",
       headers: {
-        accept: "application/json",
-        "content-type": "application/json",
         "x-api-key": secret,
       },
       body: JSON.stringify({

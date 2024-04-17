@@ -17,11 +17,16 @@ export async function POST(request: NextRequest) {
   if (body.status === "approved") {
     const reportId = body.reportId;
     const report = await firebaseAdapter.getFromDBById("bug_report", reportId);
+    await firebaseAdapter.changeField(
+      "bug_report",
+      body.reportId,
+      "status",
+      "approved"
+    );
     await new CrossmintAdapter().mintNFT(
       process.env.COLLECTION_ID!,
       `email:${report.userIdentifier}`
     );
-    // TODO: Send email to user
   } else {
     await firebaseAdapter.changeField(
       "bug_report",
