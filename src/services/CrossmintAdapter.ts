@@ -34,4 +34,19 @@ export class CrossmintAdapter {
     );
     return await res.json();
   }
+
+  async getUserWallet(email: string) {
+    const options: any = {
+      method: "GET",
+      headers: {
+        "x-api-key": secret,
+      },
+    };
+
+    const res = await fetch(
+      `${CROSSMINT_BASE_URL}/v1-alpha1/wallets?email=${email}`,
+      options
+    );
+    return await res.json();
+  }
 }

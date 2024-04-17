@@ -29,12 +29,15 @@ export async function POST(request: NextRequest) {
       process.env.COLLECTION_ID!
     );
 
-    console.log("-----", nfts);
-
-    await crossmintAdapter.mintNFT(
-      process.env.COLLECTION_ID!,
-      `email:${report.userIdentifier}:polygon-amoy`
-    );
+    const hasNFT = await checkIfHasNFTAlready(report.userIdentifier, nfts);
+    if (hasNFT) {
+      // TODO: UPDATE NFT
+    } else {
+      await crossmintAdapter.mintNFT(
+        process.env.COLLECTION_ID!,
+        `email:${report.userIdentifier}:polygon-amoy`
+      );
+    }
   } else {
     await firebaseAdapter.changeField(
       "bug_report",
@@ -46,4 +49,9 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json({ message: "OK" }, { status: 200 });
+}
+
+async function checkIfHasNFTAlready(email: string, nfts: any[]) {
+  const wallets = await new CrossmintAdapter().getUserWallet(email);
+  return nfts.some((nft) => nft.onChain.owner === email);
 }
