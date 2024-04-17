@@ -7,7 +7,6 @@ export interface ReportBugBodyPayload {
 
 export interface ReportBugReview {
   status: "approved" | "rejected";
-  reviewer: string;
   reviewerComment: string;
   reportId: string;
 }

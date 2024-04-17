@@ -18,9 +18,12 @@ export async function POST(request: NextRequest) {
     const reportId = body.reportId;
     const report = await firebaseAdapter.getFromDBById("bug_report", reportId);
     await new CrossmintAdapter().mintNFT(
-      "collectionId",
+      process.env.COLLECTION_ID!,
       `email:${report.userIdentifier}`
     );
+    // TODO: Send email to user
+  } else {
+    // TODO: Send email to user
   }
 
   return NextResponse.json({ message: "OK" }, { status: 200 });
