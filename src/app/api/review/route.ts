@@ -23,6 +23,12 @@ export async function POST(request: NextRequest) {
     );
     // TODO: Send email to user
   } else {
+    await firebaseAdapter.changeField(
+      "bug_report",
+      body.reportId,
+      "status",
+      "rejected"
+    );
     // TODO: Send email to user
   }
 

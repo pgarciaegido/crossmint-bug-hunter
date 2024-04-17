@@ -9,7 +9,10 @@ export async function POST(request: NextRequest) {
 
   const body = (await request.json()) as ReportBugReview;
 
-  await new FirebaseAdapter().saveToDB("bug_report", body);
+  await new FirebaseAdapter().saveToDB("bug_report", {
+    ...body,
+    status: "pending",
+  });
 
   return NextResponse.json({ message: "OK" }, { status: 200 });
 }

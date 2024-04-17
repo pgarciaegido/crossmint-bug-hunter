@@ -8,6 +8,7 @@ import {
   getDocs,
   getDoc,
   doc,
+  updateDoc,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -70,6 +71,19 @@ export class FirebaseAdapter {
     } catch (error) {
       console.error("Error getting document:", error);
       return null; // Or handle the error as needed
+    }
+  }
+
+  async changeField(dbName: DBNames, id: string, field: string, value: any) {
+    try {
+      const docRef = doc(this.db, dbName, id);
+      const updateObject: any = {};
+      updateObject[field] = value;
+
+      await updateDoc(docRef, updateObject);
+      console.log("Document successfully updated!");
+    } catch (e) {
+      console.error("Error updating document: ", e);
     }
   }
 }
