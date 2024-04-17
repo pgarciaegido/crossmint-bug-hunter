@@ -7,18 +7,14 @@ export class CrossmintAdapter {
       method: "POST",
       headers: {
         "x-api-key": secret,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        templateId: "d9c6636a-694d-4daf-8dfa-f8e7a1ea286f",
         recipient,
-        // TODO: NFT MINT metadata
-        metadata: {
-          name: "Crossmint Test NFT",
-          image: "https://picsum.photos/400",
-          description: "My first NFT using Crossmint",
-        },
       }),
     };
-    return await fetch(
+    await fetch(
       `${CROSSMINT_BASE_URL}/2022-06-09/collections/${collectionId}/nfts`,
       options
     );

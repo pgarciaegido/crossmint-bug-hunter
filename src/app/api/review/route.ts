@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     await crossmintAdapter.mintNFT(
       process.env.COLLECTION_ID!,
-      `email:${report.userIdentifier}`
+      `email:${report.userIdentifier}:polygon-amoy`
     );
   } else {
     await firebaseAdapter.changeField(
