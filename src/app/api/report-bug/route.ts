@@ -1,12 +1,6 @@
 import { FirebaseAdapter } from "@/services/FirebaseAdapter";
+import { ReportBugBodyPayload } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
-
-interface ReportBugBodyPayload {
-  title: string;
-  description: string;
-  url: string;
-  userIdentifier: string;
-}
 
 export async function POST(request: NextRequest) {
   if (!request.body) {
