@@ -9,6 +9,7 @@ export interface ReportBugReview {
   status: "approved" | "rejected";
   reviewer: string;
   reviewerComment: string;
+  reportId: string;
 }
 
 export type DBNames = "bug_report" | "review_report";

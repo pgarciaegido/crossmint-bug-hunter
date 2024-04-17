@@ -1,7 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { DBNames } from "@/types";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -44,6 +51,25 @@ export class FirebaseAdapter {
       return documents;
     } catch (e) {
       console.error("Error getting documents: ", e);
+    }
+  }
+
+  async getFromDBById(dbName: DBNames, id: string): Promise<any> {
+    // TODO: Implement get document by ID
+    try {
+      const docRef = doc(this.db, dbName, id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        return { id: docSnap.id, ...docSnap.data() };
+      } else {
+        console.log("No such document!");
+        return null; // Or handle the absence of the document as needed
+      }
+    } catch (error) {
+      console.error("Error getting document:", error);
+      return null; // Or handle the error as needed
     }
   }
 }

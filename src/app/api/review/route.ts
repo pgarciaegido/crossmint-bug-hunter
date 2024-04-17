@@ -1,5 +1,6 @@
+import { CrossmintAdapter } from "@/services/CrossmintAdapter";
 import { FirebaseAdapter } from "@/services/FirebaseAdapter";
-import { ReportBugBodyPayload } from "@/types";
+import { ReportBugReview } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -7,11 +8,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Invalid request" }, { status: 400 });
   }
 
-  const body = (await request.json()) as ReportBugBodyPayload;
+  const body = (await request.json()) as ReportBugReview;
 
-  await new FirebaseAdapter().saveToDB("review_report", body);
+  const firebaseAdapter = new FirebaseAdapter();
 
-  // TODO: Trigger the minting process if approved or notify if rejected
+  await firebaseAdapter.saveToDB("review_report", body);
+
+  if (body.status === "approved") {
+    const reportId = body.reportId;
+    const report = await firebaseAdapter.getFromDBById("bug_report", reportId);
+    await new CrossmintAdapter().mintNFT(
+      "collectionId",
+      `email:${report.userIdentifier}`
+    );
+  }
 
   return NextResponse.json({ message: "OK" }, { status: 200 });
 }
