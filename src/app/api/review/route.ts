@@ -24,6 +24,13 @@ export async function POST(request: NextRequest) {
       "status",
       "approved"
     );
+    // TODO: Send email to user
+    const nfts = await crossmintAdapter.getNFTsFromCollection(
+      process.env.COLLECTION_ID!
+    );
+
+    console.log("-----", nfts);
+
     await crossmintAdapter.mintNFT(
       process.env.COLLECTION_ID!,
       `email:${report.userIdentifier}`
@@ -35,10 +42,7 @@ export async function POST(request: NextRequest) {
       "status",
       "rejected"
     );
-    // TODO: Send email to user
-    const nfts = await crossmintAdapter.getNFTsFromCollection(
-      process.env.COLLECTION_ID!
-    );
+    // TODO: Send email
   }
 
   return NextResponse.json({ message: "OK" }, { status: 200 });
