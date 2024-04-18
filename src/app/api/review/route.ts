@@ -58,6 +58,9 @@ export async function POST(request: NextRequest) {
 
 async function getNFTIfAny(email: string, nfts: any[]) {
   const wallets = await new CrossmintAdapter().getUserWallet(email);
+  if (wallets == null) {
+    return null;
+  }
   const polygonWallet = wallets.find((w: any) => w.chain === "polygon-amoy");
   const nft = nfts.find((nft) => nft.onChain.owner === polygonWallet.publicKey);
   if (nft === null) {
