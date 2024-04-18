@@ -64,7 +64,9 @@ async function getNFTIfAny(email: string, nfts: any[]) {
     return null;
   }
   const polygonWallet = wallets.find((w: any) => w.chain === "polygon-amoy");
-  const nft = nfts.find((nft) => nft.onChain.owner === polygonWallet.publicKey);
+  const nft = nfts.find(
+    (nft) => nft.onChain.owner === polygonWallet?.publicKey
+  );
   if (nft === null) {
     return null;
   }
