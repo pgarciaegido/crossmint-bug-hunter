@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
     const nfts = await crossmintAdapter.getNFTsFromCollection(
       process.env.COLLECTION_ID!
     );
+    console.log("---", nfts);
 
     const nft = await getNFTIfAny(report.userIdentifier, nfts);
     if (nft) {
