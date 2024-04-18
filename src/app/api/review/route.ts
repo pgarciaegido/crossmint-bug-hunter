@@ -58,6 +58,7 @@ export async function POST(request: NextRequest) {
 
 async function getNFTIfAny(email: string, nfts: any[]) {
   const wallets = await new CrossmintAdapter().getUserWallet(email);
+  console.log("------", wallets, nfts);
   if (wallets == null || nfts == null) {
     return null;
   }
